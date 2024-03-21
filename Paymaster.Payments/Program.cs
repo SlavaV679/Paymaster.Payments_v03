@@ -8,7 +8,7 @@ var config = new ConfigurationBuilder()
 LogManager.Configuration = new NLogLoggingConfiguration(config.GetSection("NLog"));
 
 var builder = Host.CreateApplicationBuilder(args);
-builder.Services.AddHostedService<Worker>();
+builder.Services.AddHostedService<PaymentConsumer>();
 
 builder.Services.AddLogging(loggingBuilder =>
 {
