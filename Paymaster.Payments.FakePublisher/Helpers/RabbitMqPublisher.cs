@@ -1,0 +1,35 @@
+﻿using Paymaster.Payments.Helpers.Config;
+using RabbitMQ.Client;
+using System.Text;
+
+namespace Paymaster.Payments.FakePublisher.Helpers
+{
+    public static class RabbitMqPublisher
+    {
+        public static void Sending()
+        {
+            var factory = new ConnectionFactory
+            {
+                UserName = Config.RabbitMQUserName,
+                Password = Config.RabbitMQPassword,
+                VirtualHost = Config.RabbitMQVirtualHost
+            };
+            var connection = factory.CreateConnection(Config.RabbitMQServerHostNames);
+            using var channel = connection.CreateModel();
+
+            channel.QueueDeclare(queue: Config.RabbitMQQueueName,
+                                durable: false,
+                                exclusive: false,
+                                autoDelete: false,
+                                arguments: null);
+
+            const string message = "Hello World!";
+            var body = Encoding.UTF8.GetBytes(message);
+
+            channel.BasicPublish(exchange: string.Empty,
+                                 routingKey: Config.RabbitMQQueueName,
+                                 basicProperties: null,
+                                 body: body);
+        }
+    }
+}
