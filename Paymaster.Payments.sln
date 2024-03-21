@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paymaster.Payments", "Paymaster.Payments\Paymaster.Payments.csproj", "{2B569E8C-EA95-4399-A705-AFB70DC6D8F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymaster.Payments.Helpers", "Paymaster.Payments.Helpers\Paymaster.Payments.Helpers.csproj", "{E36575D4-D524-4CA6-BDB4-FA758ECAED4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Paymaster.Payments.Helpers", "Paymaster.Payments.Helpers\Paymaster.Payments.Helpers.csproj", "{E36575D4-D524-4CA6-BDB4-FA758ECAED4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paymaster.Payments.FakePublisher", "Paymaster.Payments.FakePublisher\Paymaster.Payments.FakePublisher.csproj", "{B5D550F5-19BE-4B18-BC46-599891804554}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{E36575D4-D524-4CA6-BDB4-FA758ECAED4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E36575D4-D524-4CA6-BDB4-FA758ECAED4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E36575D4-D524-4CA6-BDB4-FA758ECAED4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5D550F5-19BE-4B18-BC46-599891804554}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5D550F5-19BE-4B18-BC46-599891804554}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5D550F5-19BE-4B18-BC46-599891804554}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5D550F5-19BE-4B18-BC46-599891804554}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

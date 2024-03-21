@@ -1,0 +1,6 @@
+@Paymaster.Payments.FakePublisher_HostAddress = http://localhost:5230
+
+GET {{Paymaster.Payments.FakePublisher_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
