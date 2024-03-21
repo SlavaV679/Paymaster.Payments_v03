@@ -16,6 +16,7 @@ namespace Paymaster.Payments
                 if (_logger.IsEnabled(LogLevel.Information))
                 {
                     _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                    _logger.LogError("Check error log from worker.");
                 }
                 await Task.Delay(1000, stoppingToken);
             }
