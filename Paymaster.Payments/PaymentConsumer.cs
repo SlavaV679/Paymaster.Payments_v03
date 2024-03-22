@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Paymaster.Payments
 {
-    public class PaymentConsumer : BackgroundService
+    public class PaymentConsumer : BackgroundService // : IConsumer
     {
         private readonly ILogger<PaymentConsumer> _logger;
         private readonly IPaymentsLogic _paymentsLogic;
@@ -46,11 +46,11 @@ namespace Paymaster.Payments
             var consumer = new EventingBasicConsumer(_channel);
             consumer.Received += (ch, ea) =>
             {
-                var content = Encoding.UTF8.GetString(ea.Body.ToArray());
+                var requestMessage = Encoding.UTF8.GetString(ea.Body.ToArray());
 
                 // work with received message
                 var v1 = _paymentsRepository.GetAct();
-                var v2 = _paymentsLogic.MakePayment();
+                var v2 = _paymentsLogic.MakePayment(requestMessage);
 
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
@@ -58,6 +58,20 @@ namespace Paymaster.Payments
             _channel.BasicConsume(Config.RabbitMQQueueName, false, consumer);
 
             return Task.CompletedTask;
-        }
+        }   
+        
+        //public override string HandleRequestFromQueue(MessageFromRabbit message)
+        //{
+        //    // валидация сообщения
+        //    if(message == null)
+        //    {
+        //        //logger;
+        //    }
+
+        //    paymentsLogic.MakePayment();
+        //    // handle request logic
+        //    // здесь может быть использование класса логики
+        //    return base.ToString();
+        //}
     }
 }

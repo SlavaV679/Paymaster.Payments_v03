@@ -1,4 +1,5 @@
 ﻿using Paymaster.Payments.Data.Payments;
+using Paymaster.Payments.Helpers.Models;
 
 namespace Paymaster.Payments.Logic.Interfaces
 {
@@ -6,6 +7,6 @@ namespace Paymaster.Payments.Logic.Interfaces
     {
         public Acts2? GetAct();
 
-        public int MakeActPaymentFromPMToBalance(DateTime dateCurrencyRate);
+        public int MakeActPaymentFromPMToBalance(PaymentRequest? paymentRequest);
     }
 }

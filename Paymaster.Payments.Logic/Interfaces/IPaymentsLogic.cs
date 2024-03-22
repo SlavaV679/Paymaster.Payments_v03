@@ -2,6 +2,6 @@
 {
     public interface IPaymentsLogic
     {
-        public int MakePayment();
+        public int MakePayment(string requestMessage);
     }
 }

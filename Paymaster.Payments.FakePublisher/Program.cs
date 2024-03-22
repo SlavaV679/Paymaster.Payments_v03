@@ -1,5 +1,7 @@
+using Paymaster.Payments.Data.Payments;
 using Paymaster.Payments.FakePublisher.Helpers;
 using Paymaster.Payments.Helpers.Config;
+using Paymaster.Payments.Helpers.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,7 +27,19 @@ app.MapPost("/", async (HttpRequest request, ILoggerFactory loggerFactory) =>
 {
     try
     {
-        RabbitMqPublisher.Sending();
+        var paymentRequest = new PaymentRequest()
+        {
+            ActId = 3.ToString(),
+            Currency = "MDL",
+            ExtDocId = 178644133,//(1000 + 3).ToString(),
+            PaymentDate = DateTime.Now,
+            PaymentTypeId = 5.ToString(),
+            Purpose = "note",
+            Summa = 0,
+        };
+
+        var message = Newtonsoft.Json.JsonConvert.SerializeObject(paymentRequest);
+        RabbitMqPublisher.SendMessage(message);
     }
     catch (Exception ex)
     {

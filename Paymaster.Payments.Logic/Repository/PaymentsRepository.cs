@@ -64,19 +64,8 @@ namespace Paymaster.Payments.Logic.Repository
             }
         }
 
-        public int MakeActPaymentFromPMToBalance(DateTime dateCurrencyRate)
+        public int MakeActPaymentFromPMToBalance(PaymentRequest? paymentRequest)
         {
-            var paymentRequest = new PaymentRequest()
-            {
-                ActId = 3.ToString(),
-                Currency = "MDL",
-                ExtDocId = 178644133,//(1000 + 3).ToString(),
-                PaymentDate = dateCurrencyRate,
-                PaymentTypeId = 5.ToString(),
-                Purpose = "note",
-                Summa = 0,
-            };
-
             var userId = new SqlParameter("@UserId", 55);
             var paymentDate = new SqlParameter("@PaymentDate", paymentRequest.PaymentDate);
             var dateEnter = new SqlParameter("@DateEnter", paymentRequest.PaymentDate);

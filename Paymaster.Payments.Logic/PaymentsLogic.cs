@@ -1,4 +1,5 @@
-﻿using Paymaster.Payments.Logic.Interfaces;
+﻿using Paymaster.Payments.Helpers.Models;
+using Paymaster.Payments.Logic.Interfaces;
 using Paymaster.Payments.Logic.Repository;
 
 namespace Paymaster.Payments.Logic
@@ -17,11 +18,12 @@ namespace Paymaster.Payments.Logic
             this.paymentsRepository = new PaymentsRepository(configuration);
         }
 
-        public int MakePayment()
+        public int MakePayment(string requestMessage)
         {
+            var paymentRequest = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentRequest>(requestMessage);
             var t = paymentsRepository.GetAct();
 
-            var MakeActPaymentFromPMToBalance = paymentsRepository.MakeActPaymentFromPMToBalance(DateTime.Now);
+            var MakeActPaymentFromPMToBalance = paymentsRepository.MakeActPaymentFromPMToBalance(paymentRequest);
 
             return MakeActPaymentFromPMToBalance;
         }

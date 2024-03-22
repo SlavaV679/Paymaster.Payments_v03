@@ -6,7 +6,7 @@ namespace Paymaster.Payments.FakePublisher.Helpers
 {
     public static class RabbitMqPublisher
     {
-        public static void Sending()
+        public static void SendMessage(string message)
         {
             var factory = new ConnectionFactory
             {
@@ -23,7 +23,6 @@ namespace Paymaster.Payments.FakePublisher.Helpers
                                 autoDelete: false,
                                 arguments: null);
 
-            const string message = "Hello World!";
             var body = Encoding.UTF8.GetBytes(message);
 
             channel.BasicPublish(exchange: string.Empty,
