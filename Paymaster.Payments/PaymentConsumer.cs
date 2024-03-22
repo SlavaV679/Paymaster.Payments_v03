@@ -1,4 +1,5 @@
 ﻿using Paymaster.Payments.Helpers.Config;
+using Paymaster.Payments.Logic.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -8,17 +9,18 @@ namespace Paymaster.Payments
     public class PaymentConsumer : BackgroundService
     {
         private readonly ILogger<PaymentConsumer> _logger;
-        private readonly IConfiguration _config;
+        private readonly IPaymentsLogic _paymentsLogic;
+        private readonly IPaymentsRepository _paymentsRepository;
         private IConnection _connection;
         private IModel _channel;
 
-        public PaymentConsumer(ILogger<PaymentConsumer> logger, IConfiguration config)
+        public PaymentConsumer(ILogger<PaymentConsumer> logger, 
+                            IPaymentsLogic paymentsLogic,
+                            IPaymentsRepository paymentsRepository)
         {
             _logger = logger;
-
-            _config = config;
-            var configManager = new ConfigurationManager();
-            Config.LoadAppsettings(configManager);
+            _paymentsLogic = paymentsLogic;
+            _paymentsRepository = paymentsRepository;
 
             var factory = new ConnectionFactory
             {
@@ -47,6 +49,8 @@ namespace Paymaster.Payments
                 var content = Encoding.UTF8.GetString(ea.Body.ToArray());
 
                 // work with received message
+                var v1 = _paymentsRepository.GetAct();
+                var v2 = _paymentsLogic.MakePayment();
 
                 _channel.BasicAck(ea.DeliveryTag, false);
             };

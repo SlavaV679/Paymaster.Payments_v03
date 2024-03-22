@@ -17,5 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Paymaster.Payments.Helpers\Paymaster.Payments.Helpers.csproj" />
+    <ProjectReference Include="..\Paymaster.Payments.Logic\Paymaster.Payments.Logic.csproj" />
   </ItemGroup>
 </Project>

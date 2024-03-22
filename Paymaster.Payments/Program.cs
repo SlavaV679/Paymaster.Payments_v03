@@ -1,6 +1,11 @@
 using NLog.Extensions.Logging;
 using NLog;
 using Paymaster.Payments;
+using Paymaster.Payments.Logic.Repository;
+using Paymaster.Payments.Logic;
+using Paymaster.Payments.Logic.Interfaces;
+using Paymaster.Payments.Data.Payments;
+using Paymaster.Payments.Helpers.Config;
 
 var config = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
@@ -9,6 +14,11 @@ LogManager.Configuration = new NLogLoggingConfiguration(config.GetSection("NLog"
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<PaymentConsumer>();
+Config.LoadAppsettings(builder.Configuration);
+
+builder.Services.AddSingleton<PaymentsContext>();
+builder.Services.AddSingleton<IPaymentsRepository, PaymentsRepository>();
+builder.Services.AddSingleton<IPaymentsLogic, PaymentsLogic>();
 
 builder.Services.AddLogging(loggingBuilder =>
 {
