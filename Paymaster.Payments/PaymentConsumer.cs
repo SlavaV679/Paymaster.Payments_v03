@@ -1,4 +1,4 @@
-﻿using Paymaster.Payments.Helpers.Config;
+﻿using Paymaster.Payments.Domain.Config;
 using Paymaster.Payments.Logic.Interfaces;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -49,7 +49,6 @@ namespace Paymaster.Payments
                 var requestMessage = Encoding.UTF8.GetString(ea.Body.ToArray());
 
                 // work with received message
-                var v1 = _paymentsRepository.GetAct();
                 var v2 = _paymentsLogic.MakePayment(requestMessage);
 
                 _channel.BasicAck(ea.DeliveryTag, false);

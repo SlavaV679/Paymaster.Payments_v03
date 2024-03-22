@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Paymaster.Payments.Data.Payments;
-using Paymaster.Payments.Helpers.Config;
-using Paymaster.Payments.Helpers.Models;
+using Paymaster.Payments.Domain.Config;
+using Paymaster.Payments.Domain.Models;
 using Paymaster.Payments.Logic.Interfaces;
 using System.Data;
 

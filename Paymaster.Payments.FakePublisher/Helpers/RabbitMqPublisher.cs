@@ -1,4 +1,4 @@
-﻿using Paymaster.Payments.Helpers.Config;
+﻿using Paymaster.Payments.Domain.Config;
 using RabbitMQ.Client;
 using System.Text;
 

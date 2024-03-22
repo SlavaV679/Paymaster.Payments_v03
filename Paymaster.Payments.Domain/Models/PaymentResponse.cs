@@ -1,4 +1,4 @@
-﻿namespace Paymaster.Payments.Helpers.Models
+﻿namespace Paymaster.Payments.Domain.Models
 {
     public class PaymentResponse
     {

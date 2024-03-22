@@ -1,5 +1,5 @@
 ﻿using Paymaster.Payments.Data.Payments;
-using Paymaster.Payments.Helpers.Models;
+using Paymaster.Payments.Domain.Models;
 
 namespace Paymaster.Payments.Logic.Interfaces
 {

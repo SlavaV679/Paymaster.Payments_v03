@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace Paymaster.Payments.Helpers.Config
+namespace Paymaster.Payments.Domain.Config
 {
     public static class Config
     {

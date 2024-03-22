@@ -1,7 +1,7 @@
-using Paymaster.Payments.Data.Payments;
+using Paymaster.Payments.Domain.Config;
+using Paymaster.Payments.Domain.Models;
 using Paymaster.Payments.FakePublisher.Helpers;
-using Paymaster.Payments.Helpers.Config;
-using Paymaster.Payments.Helpers.Models;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,7 +38,7 @@ app.MapPost("/", async (HttpRequest request, ILoggerFactory loggerFactory) =>
             Summa = 0,
         };
 
-        var message = Newtonsoft.Json.JsonConvert.SerializeObject(paymentRequest);
+        var message = JsonSerializer.Serialize(paymentRequest);
         RabbitMqPublisher.SendMessage(message);
     }
     catch (Exception ex)

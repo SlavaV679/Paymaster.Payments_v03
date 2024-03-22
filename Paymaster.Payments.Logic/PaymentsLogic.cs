@@ -1,6 +1,7 @@
-﻿using Paymaster.Payments.Helpers.Models;
+﻿using Paymaster.Payments.Domain.Models;
 using Paymaster.Payments.Logic.Interfaces;
 using Paymaster.Payments.Logic.Repository;
+using System.Text.Json;
 
 namespace Paymaster.Payments.Logic
 {
@@ -20,7 +21,8 @@ namespace Paymaster.Payments.Logic
 
         public int MakePayment(string requestMessage)
         {
-            var paymentRequest = Newtonsoft.Json.JsonConvert.DeserializeObject<PaymentRequest>(requestMessage);
+            var paymentRequest = JsonSerializer.Deserialize<PaymentRequest>(requestMessage);
+
             var t = paymentsRepository.GetAct();
 
             var MakeActPaymentFromPMToBalance = paymentsRepository.MakeActPaymentFromPMToBalance(paymentRequest);
