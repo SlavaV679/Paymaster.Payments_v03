@@ -15,15 +15,5 @@
         public string Currency { get; set; }
 
         public string Purpose { get; set; }
-
-        public static object Deserialize(string requestRaw)
-        {
-            throw new NotImplementedException();
-        }
-
-        public char[] Serialize()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -11,9 +11,9 @@ namespace Paymaster.Payments.Logic.Repository
 {
     public class PaymentsRepository : IPaymentsRepository
     {
-        private readonly IConfiguration _config;
+        private readonly Configuration _config;
 
-        public PaymentsRepository(IConfiguration configuration)
+        public PaymentsRepository(Configuration configuration)
         {
             _config = configuration;
         }
@@ -22,7 +22,7 @@ namespace Paymaster.Payments.Logic.Repository
         {
             var optionsBuilder = new DbContextOptionsBuilder<PaymentsContext>();
             var options = optionsBuilder
-                .UseSqlServer(Config.PaymentsConnectionString)
+                .UseSqlServer(_config.PaymentsConnectionString)
                 .Options;
 
             return new PaymentsContext(options);

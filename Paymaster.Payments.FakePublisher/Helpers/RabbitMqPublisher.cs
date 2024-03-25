@@ -4,20 +4,27 @@ using System.Text;
 
 namespace Paymaster.Payments.FakePublisher.Helpers
 {
-    public static class RabbitMqPublisher
+    public class RabbitMqPublisher
     {
-        public static void SendMessage(string message)
+        private readonly Configuration _config;
+
+        public RabbitMqPublisher(Configuration configuration)
+        {
+            _config= configuration;
+        }
+        
+        public void SendMessage(string message)
         {
             var factory = new ConnectionFactory
             {
-                UserName = Config.RabbitMQUserName,
-                Password = Config.RabbitMQPassword,
-                VirtualHost = Config.RabbitMQVirtualHost
+                UserName = _config.RabbitMQUserName,
+                Password = _config.RabbitMQPassword,
+                VirtualHost = _config.RabbitMQVirtualHost
             };
-            var connection = factory.CreateConnection(Config.RabbitMQServerHostNames);
+            var connection = factory.CreateConnection(_config.RabbitMQServerHostNames);
             using var channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: Config.RabbitMQQueueName,
+            channel.QueueDeclare(queue: _config.RabbitMQQueueName,
                                 durable: false,
                                 exclusive: false,
                                 autoDelete: false,
@@ -26,7 +33,7 @@ namespace Paymaster.Payments.FakePublisher.Helpers
             var body = Encoding.UTF8.GetBytes(message);
 
             channel.BasicPublish(exchange: string.Empty,
-                                 routingKey: Config.RabbitMQQueueName,
+                                 routingKey: _config.RabbitMQQueueName,
                                  basicProperties: null,
                                  body: body);
         }

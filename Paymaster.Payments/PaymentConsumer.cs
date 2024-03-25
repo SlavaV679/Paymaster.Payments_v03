@@ -10,27 +10,27 @@ namespace Paymaster.Payments
     {
         private readonly ILogger<PaymentConsumer> _logger;
         private readonly IPaymentsLogic _paymentsLogic;
-        private readonly IPaymentsRepository _paymentsRepository;
+        private readonly Configuration _config;
         private IConnection _connection;
         private IModel _channel;
 
         public PaymentConsumer(ILogger<PaymentConsumer> logger, 
                             IPaymentsLogic paymentsLogic,
-                            IPaymentsRepository paymentsRepository)
+                            Configuration configuration)
         {
             _logger = logger;
             _paymentsLogic = paymentsLogic;
-            _paymentsRepository = paymentsRepository;
+            _config = configuration;
 
             var factory = new ConnectionFactory
             {
-                UserName = Config.RabbitMQUserName,
-                Password = Config.RabbitMQPassword,
-                VirtualHost = Config.RabbitMQVirtualHost
+                UserName = _config.RabbitMQUserName,
+                Password = _config.RabbitMQPassword,
+                VirtualHost = _config.RabbitMQVirtualHost
             };
-            _connection = factory.CreateConnection(Config.RabbitMQServerHostNames);
+            _connection = factory.CreateConnection(_config.RabbitMQServerHostNames);
             _channel = _connection.CreateModel();
-            _channel.QueueDeclare(queue: Config.RabbitMQQueueName,
+            _channel.QueueDeclare(queue: _config.RabbitMQQueueName,
                                 durable: false,
                                 exclusive: false,
                                 autoDelete: false,
@@ -54,7 +54,7 @@ namespace Paymaster.Payments
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
 
-            _channel.BasicConsume(Config.RabbitMQQueueName, false, consumer);
+            _channel.BasicConsume(_config.RabbitMQQueueName, false, consumer);
 
             return Task.CompletedTask;
         }   

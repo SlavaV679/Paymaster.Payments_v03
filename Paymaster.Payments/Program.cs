@@ -14,9 +14,9 @@ LogManager.Configuration = new NLogLoggingConfiguration(config.GetSection("NLog"
 
 var builder = Host.CreateApplicationBuilder(args);
 builder.Services.AddHostedService<PaymentConsumer>();
-Config.LoadAppsettings(builder.Configuration);
 
 builder.Services.AddSingleton<PaymentsContext>();
+builder.Services.AddSingleton<Configuration>();
 builder.Services.AddTransient<IPaymentsRepository, PaymentsRepository>();
 builder.Services.AddTransient<IPaymentsLogic, PaymentsLogic>();
 

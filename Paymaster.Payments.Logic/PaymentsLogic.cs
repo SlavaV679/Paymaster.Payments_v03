@@ -14,11 +14,6 @@ namespace Paymaster.Payments.Logic
             this.paymentsRepository = paymentsRepository;
         }
 
-        public PaymentsLogic(Microsoft.Extensions.Configuration.ConfigurationManager configuration)
-        {
-            this.paymentsRepository = new PaymentsRepository(configuration);
-        }
-
         public int MakePayment(string requestMessage)
         {
             var paymentRequest = JsonSerializer.Deserialize<PaymentRequest>(requestMessage);

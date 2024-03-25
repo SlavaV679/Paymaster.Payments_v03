@@ -10,7 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-Config.LoadAppsettings(builder.Configuration);
+builder.Services.AddSingleton<Configuration>();
+builder.Services.AddTransient<RabbitMqPublisher>();
 
 var app = builder.Build();
 
@@ -23,10 +24,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapPost("/", async (HttpRequest request, ILoggerFactory loggerFactory) =>
+app.MapPost("/", async (HttpRequest request, ILoggerFactory loggerFactory, RabbitMqPublisher rabbitMqPublisher) =>
 {
     try
-    {
+    {        
         var paymentRequest = new PaymentRequest()
         {
             ActId = 3.ToString(),
@@ -39,7 +40,7 @@ app.MapPost("/", async (HttpRequest request, ILoggerFactory loggerFactory) =>
         };
 
         var message = JsonSerializer.Serialize(paymentRequest);
-        RabbitMqPublisher.SendMessage(message);
+        rabbitMqPublisher.SendMessage(message);
     }
     catch (Exception ex)
     {
