@@ -25,5 +25,7 @@ namespace Paymaster.Payments.Domain.Config
         public string RabbitMQVirtualHost => configuration["RabbitMQVirtualHost"] ?? "/";
 
         public string RabbitMQQueueName => configuration["RabbitMQQueueName"] ?? "paymaster";
+        
+        public bool CheckedByAccounter => bool.Parse(configuration["CheckedByAccounter"]); // TODO
     }
 }

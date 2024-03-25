@@ -64,33 +64,23 @@ namespace Paymaster.Payments.Logic.Repository
             }
         }
 
-        public int MakeActPaymentFromPMToBalance(PaymentRequest? paymentRequest)
+        public int MakeActPaymentFromPMToBalance(ActPayment actPayment)
         {
-            var userId = new SqlParameter("@UserId", 55);
-            var paymentDate = new SqlParameter("@PaymentDate", paymentRequest.PaymentDate);
-            var dateEnter = new SqlParameter("@DateEnter", paymentRequest.PaymentDate);
-            var paymentTypeId = new SqlParameter("@PaymentTypeId", paymentRequest.PaymentTypeId);
-            var summa = new SqlParameter("@Summa", paymentRequest.Summa);
-            var summaFull = new SqlParameter("@SummaFull", paymentRequest.Summa);
-            var summaComm = new SqlParameter("@SummaComm", paymentRequest.Summa);
-            var cONTRACTS_ID = new SqlParameter("@CONTRACTS_ID", 1);
-            var parametrChecked = new SqlParameter("@Checked", true);
-            var purpose = new SqlParameter("@Purpose", paymentRequest.Purpose);
-            var notes = new SqlParameter("@Notes", paymentRequest.Purpose);
-            var extDocId = new SqlParameter("@ExtDocId", paymentRequest.ExtDocId);
-            var inn = new SqlParameter("@Inn", "inn");
-            var account = new SqlParameter("@Account", "Account");
-            var bank = new SqlParameter("@Bank", 7);
-            var cashRegister = new SqlParameter("@CashRegister", "CashRegister");
-            var datePayFromEnterprise = new SqlParameter("@DatePayFromEnterprise", paymentRequest.PaymentDate);
+            var paymentTypeId = new SqlParameter("@PaymentTypeId", actPayment.PaymentTypeId);
+            var summa = new SqlParameter("@Summa", actPayment.Summa);
+            var сhecked = new SqlParameter("@Checked", actPayment.CheckedByAccounter);
+            var purpose = new SqlParameter("@Purpose", actPayment.Purpose);
+            var paymentDate = new SqlParameter("@PaymentDate", actPayment.PaymentDate);
+            var inn = new SqlParameter("@Inn", actPayment.Inn);
+            var currency = new SqlParameter("@Currency", actPayment.Currency);
+            var extDocId = new SqlParameter("@ExtDocId", actPayment.ExtDocId);
+            var limitCover = new SqlParameter("@LimitCover", actPayment.LimitCover);
 
             SqlParameter paramId = new SqlParameter("@Id", SqlDbType.Int) { Direction = ParameterDirection.Output };
             SqlParameter paramDateChange = new SqlParameter("@DateChange", SqlDbType.DateTime) { Direction = ParameterDirection.Output, Value = DateTime.Now };
             SqlParameter paramIsOk = new SqlParameter("@IsOk", SqlDbType.Bit) { Direction = ParameterDirection.Output };
-            SqlParameter parentId = new SqlParameter("@ID_PARENT", SqlDbType.Int) { Direction = ParameterDirection.InputOutput, Value = 5 };
             SqlParameter paramErrorCode = new SqlParameter("@ErrorCode", SqlDbType.Int) { Direction = ParameterDirection.Output };
-
-            var isOk = false;
+            SqlParameter parentId = new SqlParameter("@ID_PARENT", SqlDbType.Int) { Direction = ParameterDirection.Output};
 
             using (var context = GetDb())
             {
@@ -183,17 +173,14 @@ namespace Paymaster.Payments.Logic.Repository
                     #endregion
 
                     var v = context.Database.ExecuteSqlRaw("dbo.[uiPAYMENTS_change] " +
-                        "@UserId=@UserId,       @PaymentTypeId=@PaymentTypeId,  @Summa=@Summa,          @SummaFull=@SummaFull," +
-                        "@SummaComm=@SummaComm, @CONTRACTS_ID=@CONTRACTS_ID,    @Checked=@Checked,      @Purpose=@Purpose," +
-                        "@Notes=@Notes,         @PaymentDate=@PaymentDate,      @DateEnter=@DateEnter,  @Inn=@Inn," +
-                        "@Account=@Account,     @Bank=@Bank,                    @ExtDocId=@ExtDocId,    @Cashregister=@Cashregister," +
-                        "@DatePayFromEnterprise=@DatePayFromEnterprise," +
+                        "@PaymentTypeId=@PaymentTypeId,     @Summa=@Summa,                  @Checked=@Checked," +
+                        "@Purpose=@Purpose,                 @PaymentDate=@PaymentDate,      @Inn=@Inn," +
+                        "@Currency=@Currency,               @ExtDocId=@ExtDocId,            @LimitCover=@LimitCover," +
                         "@Id=@Id OUT,       @DateChange=@DateChange OUT,        @IsOk=@IsOk OUT,      @ErrorCode=@ErrorCode OUT,     @ID_PARENT=@ID_PARENT OUT",
-                        userId, paymentTypeId, summa, summaFull,
-                        summaComm, cONTRACTS_ID, parametrChecked, purpose,
-                        notes, paymentDate, dateEnter, inn,
-                        account, bank, extDocId, cashRegister,
-                        datePayFromEnterprise,
+
+                        paymentTypeId, summa, сhecked, 
+                        purpose, paymentDate, inn,
+                        currency, extDocId, limitCover,                        
                         paramId, paramDateChange, paramIsOk, paramErrorCode, parentId);
                 }
                 catch (Exception ex)
@@ -202,9 +189,12 @@ namespace Paymaster.Payments.Logic.Repository
                     throw;
                 }
 
-                if (paramErrorCode.Value == DBNull.Value)
+                if (paramIsOk.Value == DBNull.Value)
                     throw new Exception($"Store procedure uiPAYMENTS_change failed.");
-
+                if ((bool)paramIsOk.Value == false)
+                {
+                    
+                }
                 return (int)paramErrorCode.Value;
             }
         }

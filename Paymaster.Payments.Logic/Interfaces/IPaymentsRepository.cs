@@ -7,6 +7,6 @@ namespace Paymaster.Payments.Logic.Interfaces
     {
         public Acts2? GetAct();
 
-        public int MakeActPaymentFromPMToBalance(PaymentRequest? paymentRequest);
+        public int MakeActPaymentFromPMToBalance(ActPayment actPayment);
     }
 }

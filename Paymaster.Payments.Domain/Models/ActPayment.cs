@@ -1,8 +1,6 @@
-﻿using System.Data;
-
-namespace Paymaster.Payments.Domain.Models
+﻿namespace Paymaster.Payments.Domain.Models
 {
-    public class PaymentRequest
+    public class ActPayment
     {
         public string ActId { get; set; }
 
@@ -17,11 +15,11 @@ namespace Paymaster.Payments.Domain.Models
         public string Currency { get; set; }
 
         public string Purpose { get; set; }
-        
+
         public bool LimitCover { get; set; }
-        
+
         public bool CheckedByAccounter { get; set; }
-        
+
         public string Inn { get; set; }
     }
 }
